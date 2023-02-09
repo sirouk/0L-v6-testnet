@@ -1,3 +1,9 @@
+# Notes
+```
+# Built upon the concepts from our 0L v6 Makefile: 
+https://github.com/0LNetworkCommunity/libra/blob/v6/Makefile
+```
+
 # Usage
 
 ## Prepare
