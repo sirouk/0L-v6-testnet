@@ -27,6 +27,9 @@ services:
         make testnet-init
         sed -i 's/^ip =.*/ip = \"172.20.0.4\"/' /root/.0L/0L.toml
         cat /root/.0L/0L.toml
+        sed -i 's#/ip4/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/tcp/6180/#/ip4/172.20.0.4/tcp/6180/#gp' /root/.0L/account.json
+        sed -i 's#/ip4/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/tcp/6179/#/ip4/172.20.0.4/tcp/6179/#gp' /root/.0L/account.json
+        cat /root/.0L/account.json
         echo \"Now 'make gen-register'\" && make gen-register 
         echo \"Now 'make testnet-genesis'\" && make testnet-genesis || true
         sleep 240
@@ -53,6 +56,9 @@ services:
         make testnet-init
         sed -i 's/^ip =.*/ip = \"172.20.0.5\"/' /root/.0L/0L.toml
         cat /root/.0L/0L.toml
+        sed -i 's#/ip4/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/tcp/6180/#/ip4/172.20.0.5/tcp/6180/#gp' /root/.0L/account.json
+        sed -i 's#/ip4/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/tcp/6179/#/ip4/172.20.0.5/tcp/6179/#gp' /root/.0L/account.json
+        cat /root/.0L/account.json
         echo \"Now 'make gen-register'\" && make gen-register
         echo \"Now 'make testnet-genesis'\" && make testnet-genesis || true
         sleep 180
@@ -79,6 +85,9 @@ services:
         make testnet-init
         sed -i 's/^ip =.*/ip = \"172.20.0.6\"/' /root/.0L/0L.toml
         cat /root/.0L/0L.toml
+        sed -i 's#/ip4/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/tcp/6180/#/ip4/172.20.0.6/tcp/6180/#gp' /root/.0L/account.json
+        sed -i 's#/ip4/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/tcp/6179/#/ip4/172.20.0.6/tcp/6179/#gp' /root/.0L/account.json
+        cat /root/.0L/account.json
         echo \"Now 'make gen-register'\" && make gen-register
         echo \"Now 'make testnet-genesis'\" && make testnet-genesis || true
         sleep 120
