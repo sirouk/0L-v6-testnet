@@ -31,9 +31,9 @@ sudo docker-compose up -d
 sudo docker ps -a
 
 # connect to a running container
-sudo docker attach 0l-devnet_alice_1
-sudo docker attach 0l-devnet_bob_1
-sudo docker attach 0l-devnet_carol_1
+sudo docker attach 0l-v6-testnet_alice_1
+sudo docker attach 0l-v6-testnet_bob_1
+sudo docker attach 0l-v6-testnet_carol_1
 
 # check the testnet registration
 https://github.com/0LNetworkCommunity/dev-genesis
