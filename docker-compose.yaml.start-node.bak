@@ -1,0 +1,62 @@
+version: "3"
+
+# NOTE: these ip-addresses are hardcoded on the 0L-devnet branch of Leibniz137/libra.git
+networks:
+  0L:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+services:
+  alice:
+    build:
+      args:
+      - NS=alice
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      bash -c "
+        set -e
+        export TEST=y && echo 'export TEST=y' > /root/.bashrc
+        export NODE_ENV=test && echo 'export NODE_ENV=test' > /root/.bashrc
+        export NS=alice && echo 'export NS=alice' > /root/.bashrc
+        echo \"Now 'make start'\" && make start
+        tail -f /dev/null"
+    networks:
+      0L:
+        ipv4_address: 172.20.0.4
+  bob:
+    build:
+      args:
+      - NS=bob
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      bash -c "
+        set -e
+        export TEST=y && echo 'export TEST=y' > /root/.bashrc
+        export NODE_ENV=test && echo 'export NODE_ENV=test' > /root/.bashrc
+        export NS=bob && echo 'export NS=bob' > /root/.bashrc
+        echo \"Now 'make start'\" && make start
+        tail -f /dev/null"
+    networks:
+      0L:
+        ipv4_address: 172.20.0.5
+  carol:
+    build:
+      args:
+      - NS=carol
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      bash -c "
+        set -e
+        export TEST=y && echo 'export TEST=y' > /root/.bashrc
+        export NODE_ENV=test && echo 'export NODE_ENV=test' > /root/.bashrc
+        export NS=carol && echo 'export NS=carol' > /root/.bashrc
+        echo \"Now 'make start'\" && make start
+        cat /root/.0L/0L.toml
+        tail -f /dev/null"
+    networks:
+      0L:
+        ipv4_address: 172.20.0.6

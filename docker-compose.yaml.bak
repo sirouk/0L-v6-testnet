@@ -1,0 +1,89 @@
+version: "3"
+
+# NOTE: these ip-addresses are hardcoded on the 0L-devnet branch of Leibniz137/libra.git
+networks:
+  0L:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+services:
+  alice:
+    build:
+      args:
+      - NS=alice
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      bash -c "
+        set -e
+        mkdir -p /root/.0L
+        echo ${GITHUB_TOKEN} > /root/.0L/github_token.txt
+        export TEST=y && echo 'export TEST=y' > /root/.bashrc
+        export NODE_ENV=test && echo 'export NODE_ENV=test' > /root/.bashrc
+        export NS=alice && echo 'export NS=alice' > /root/.bashrc
+        sleep 0 && cd /root/libra/ && git pull
+        make testnet-init
+        sed -i 's/^ip =.*/ip = \"172.20.0.4\"/' /root/.0L/0L.toml
+        cat /root/.0L/0L.toml
+        echo \"Now 'make gen-register'\" && make gen-register 
+        echo \"Now 'make testnet-genesis'\" && make testnet-genesis || true
+        sleep 240
+        echo \"Now 'make start'\" && make start
+        tail -f /dev/null"
+    networks:
+      0L:
+        ipv4_address: 172.20.0.4
+  bob:
+    build:
+      args:
+      - NS=bob
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      bash -c "
+        set -e
+        mkdir -p /root/.0L
+        echo ${GITHUB_TOKEN} > /root/.0L/github_token.txt
+        export TEST=y && echo 'export TEST=y' > /root/.bashrc
+        export NODE_ENV=test && echo 'export NODE_ENV=test' > /root/.bashrc
+        export NS=bob && echo 'export NS=bob' > /root/.bashrc
+        sleep 60 && cd /root/libra/ && git pull
+        make testnet-init
+        sed -i 's/^ip =.*/ip = \"172.20.0.5\"/' /root/.0L/0L.toml
+        cat /root/.0L/0L.toml
+        echo \"Now 'make gen-register'\" && make gen-register
+        echo \"Now 'make testnet-genesis'\" && make testnet-genesis || true
+        sleep 180
+        echo \"Now 'make start'\" && make start
+        tail -f /dev/null"
+    networks:
+      0L:
+        ipv4_address: 172.20.0.5
+  carol:
+    build:
+      args:
+      - NS=carol
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      bash -c "
+        set -e
+        mkdir -p /root/.0L
+        echo ${GITHUB_TOKEN} > /root/.0L/github_token.txt
+        export TEST=y && echo 'export TEST=y' > /root/.bashrc
+        export NODE_ENV=test && echo 'export NODE_ENV=test' > /root/.bashrc
+        export NS=carol && echo 'export NS=carol' > /root/.bashrc
+        sleep 120 && cd /root/libra/ && git pull
+        make testnet-init
+        sed -i 's/^ip =.*/ip = \"172.20.0.6\"/' /root/.0L/0L.toml
+        cat /root/.0L/0L.toml
+        echo \"Now 'make gen-register'\" && make gen-register
+        echo \"Now 'make testnet-genesis'\" && make testnet-genesis || true
+        sleep 120
+        echo \"Now 'make start'\" && make start
+        cat /root/.0L/0L.toml
+        tail -f /dev/null"
+    networks:
+      0L:
+        ipv4_address: 172.20.0.6
