@@ -3,6 +3,7 @@ version: "3"
 # NOTE: these ip-addresses are hardcoded on the 0L-devnet branch of Leibniz137/libra.git
 networks:
   0L:
+    driver: bridge
     ipam:
       config:
         - subnet: 172.20.0.0/24
